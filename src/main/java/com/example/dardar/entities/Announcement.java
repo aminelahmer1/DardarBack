@@ -23,17 +23,6 @@ public class Announcement {
     @Enumerated(EnumType.STRING)
     private Type_Announcement typeAnnouncement;
 
-    @ManyToOne
-    @JoinColumn(name = "Id_realestate")
-    private Real_Estate realEstate ;
-    @ManyToOne(optional = false)
-    private Real_Estate realEstates;
+   
 
-    public Real_Estate getRealEstates() {
-        return realEstates;
-    }
-
-    public void setRealEstates(Real_Estate realEstates) {
-        this.realEstates = realEstates;
-    }
 }
