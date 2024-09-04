@@ -19,10 +19,12 @@ public class Announcement {
     private String title;
     private String description;
     private String Date;
-
+private String Prix;
     private  String Type_Announcement;
-
-
-
+private String CodePostal;
+private String Ville;
+private String Adresse;
+private String gouvernorat;
+    private String imagePath;
 
 }

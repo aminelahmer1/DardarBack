@@ -5,12 +5,14 @@ import com.example.dardar.services.AnnouncementService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @CrossOrigin("*")
+
 public class AnnouncementController {
 
     private final AnnouncementService announcementService;
@@ -48,5 +50,11 @@ public class AnnouncementController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/uploadImage")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        String fileName = announcementService.uploadImage(file);
+        return ResponseEntity.ok("Image uploaded successfully: " + fileName);
     }
 }
