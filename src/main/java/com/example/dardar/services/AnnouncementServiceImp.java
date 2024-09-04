@@ -37,7 +37,7 @@ public class AnnouncementServiceImp implements  AnnouncementService{
             existingAnnouncement.setDescription(announcement.getDescription());
 
             existingAnnouncement.setDate(announcement.getDate());
-            existingAnnouncement.setTypeAnnouncement(announcement.getTypeAnnouncement());
+
 
 
             return announcementRepository.save(existingAnnouncement);

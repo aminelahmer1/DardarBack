@@ -20,9 +20,9 @@ public class Announcement {
     private String description;
     private String Date;
 
-    @Enumerated(EnumType.STRING)
-    private Type_Announcement typeAnnouncement;
+    private  String Type_Announcement;
 
-   
+
+
 
 }

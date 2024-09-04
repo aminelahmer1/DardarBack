@@ -20,12 +20,12 @@ import java.util.*;
 @Setter
 @Data
 @Table(name = "User")
-public class User implements UserDetails {
+public class User {
     @JsonBackReference
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
+
     private String username;
     private String paswd ;
     private String firstname;
@@ -55,53 +55,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<RDV> rdvs;
 
-    // Implementations of UserDetails methods
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        List<GrantedAuthority> roless = new ArrayList<>() ;
-        for (Role authority : roles ) {
-            if (authority !=null&& authority.getName() != null)
-                roless.add(new SimpleGrantedAuthority(authority.getName().name()));
-            else
-                System.out.println("----- U have no role ----");
-        }
-        return roless;
-    }
-    public Set<Role> getAuthFromBase(){
-        return  this.roles;}//role
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-    @Override
-    public String getPassword() {
-        return paswd;
-    }
 
 
-    public void setAccountVerified(     boolean accountVerified ) {  }
+
 }
