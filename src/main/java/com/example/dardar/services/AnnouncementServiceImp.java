@@ -50,7 +50,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
             existingAnnouncement.setAdresse(announcement.getAdresse());
             existingAnnouncement.setGouvernorat(announcement.getGouvernorat());
             existingAnnouncement.setImagePath(announcement.getImagePath());
-
+            existingAnnouncement.setPhoneNumber(announcement.getPhoneNumber());
             return announcementRepository.save(existingAnnouncement);
         } else {
             return null;
@@ -66,7 +66,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
     public Announcement getAnnouncementById(Integer Id_announcement) {
         return announcementRepository.findById(Id_announcement).orElse(null);
     }
-@Override
+    @Override
     public String uploadImage(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String uploadDir = "announcement-images/";
@@ -82,9 +82,13 @@ public class AnnouncementServiceImp implements AnnouncementService {
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            return fileName;
+            // Retourner l'URL complète
+            return "/announcement-images/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
+
+
+
 }

@@ -57,4 +57,5 @@ public class AnnouncementController {
         String fileName = announcementService.uploadImage(file);
         return ResponseEntity.ok("Image uploaded successfully: " + fileName);
     }
+
 }

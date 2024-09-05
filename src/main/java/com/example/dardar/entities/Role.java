@@ -16,18 +16,15 @@ import java.util.Set;
 @ToString
 @Getter
 @Setter
-@Table(name = "Role")
+@Table(name = "roles")
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id_Role;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
-    RoleType name ;
-
-    @ManyToOne
-    @JsonIgnore
-    private User user;
+    @Column(length = 20)
+    private ERole name;
 
 
 }

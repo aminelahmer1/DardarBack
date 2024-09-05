@@ -9,7 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.*;
 @Entity
 @AllArgsConstructor
@@ -19,30 +21,52 @@ import java.util.*;
 @Getter
 @Setter
 @Data
-@Table(name = "User")
+@Table(	name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
     @JsonBackReference
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @NotBlank
+    @Size(max = 20)
     private String username;
-    private String paswd ;
-    private String firstname;
-    private String lastname;
-    private String SecretKey;
+
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
+
+
+    @NotBlank
+    @Size(max = 120)
+    private String password;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+
+
+
+
+
+
     private String DateOfBirth;
     private String Gender;
-    private String email;
+
     private int PhoneNumber;
 
-    private String resetPasswordToken;
-    private boolean banned;
-    private Date banExpirationDate;
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> roles;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -56,8 +80,6 @@ public class User {
     private List<RDV> rdvs;
 
 
-
-
-
-
+    public User(String username, String email, String encode) {
+    }
 }

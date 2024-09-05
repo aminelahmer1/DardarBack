@@ -25,6 +25,9 @@ private String CodePostal;
 private String Ville;
 private String Adresse;
 private String gouvernorat;
+    private  String PhoneNumber;
     private String imagePath;
+
+
 
 }

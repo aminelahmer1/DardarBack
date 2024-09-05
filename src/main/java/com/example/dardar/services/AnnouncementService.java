@@ -14,4 +14,5 @@ public interface AnnouncementService {
     void deleteAnnouncement(Integer Id_announcement);
     Announcement getAnnouncementById(Integer Id_announcement);
     public String uploadImage(MultipartFile file);
+
 }
