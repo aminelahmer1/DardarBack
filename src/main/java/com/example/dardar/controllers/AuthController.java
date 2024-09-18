@@ -88,19 +88,27 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        // Vérifie si le nom d'utilisateur existe déjà
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
         }
 
+        // Vérifie si l'email existe déjà
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        // Crée un nouvel utilisateur
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
 
+        // Assigne les rôles
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
@@ -115,18 +123,26 @@ public class AuthController {
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
-
                         break;
                     case "seller":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_SELLER)
+                        Role sellerRole = roleRepository.findByName(ERole.ROLE_SELLER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
+                        roles.add(sellerRole);
+                        break;
+                    case "landlord":
+                        Role landlordRole = roleRepository.findByName(ERole.ROLE_LANDLORD)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(landlordRole);
+                        break;
+                    case "tenant":
+                        Role tenantRole = roleRepository.findByName(ERole.ROLE_TENANT)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(tenantRole);
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        Role defaultRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
+                        roles.add(defaultRole);
                 }
             });
         }
